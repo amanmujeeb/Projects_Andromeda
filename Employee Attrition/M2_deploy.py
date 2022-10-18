@@ -1,7 +1,7 @@
 from numpy import dsplit
 import streamlit as st
 import pickle
-
+st.title("Employee Attrition Prediction")
 pickle_in = open('classifier.pkl',"rb")
 classifier = pickle.load(pickle_in)
 
