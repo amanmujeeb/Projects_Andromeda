@@ -1,3 +1,4 @@
+import lightgbm
 import streamlit as st
 import pickle
 from lightgbm import LGBMClassifier
