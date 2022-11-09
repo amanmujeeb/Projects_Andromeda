@@ -1,10 +1,11 @@
 from numpy import dsplit
 import streamlit as st
+import pandas as pd
+import numpy as np
 import pickle
 st.title("Employee Attrition Prediction")
-pickle_in = open('classifier.pkl',"rb")
-classifier = pickle.load(pickle_in)
-
+pickle_in = open('classifier1.pkl',"rb")
+classifier1 = pickle.load(pickle_in)
 def prediction(Age, DailyRate, DistanceFromHome,Education,
        EnvironmentSatisfaction,HourlyRate, JobInvolvement, JobLevel,
        JobSatisfaction, MonthlyIncome, NumCompaniesWorked,
@@ -182,7 +183,7 @@ def prediction(Age, DailyRate, DistanceFromHome,Education,
         lt=0
         md=1
     elif JobRole == "Sales Representative":
-        se =0
+        se=0
         rs=0
         jhr=0
         manager=0
@@ -219,8 +220,9 @@ def prediction(Age, DailyRate, DistanceFromHome,Education,
     else:
         yes = 0
 
+    
 
-    prediction = classifier.predict([[Age, DailyRate, DistanceFromHome, Education,
+    prediction = classifier1.predict([[Age, DailyRate, DistanceFromHome, Education,
         EnvironmentSatisfaction,HourlyRate, JobInvolvement, JobLevel,
         JobSatisfaction, MonthlyIncome, NumCompaniesWorked,
         PercentSalaryHike, PerformanceRating, RelationshipSatisfaction,
@@ -234,39 +236,43 @@ def prediction(Age, DailyRate, DistanceFromHome,Education,
      
     
     return prediction 
-def main():       
-    age = st.text_input('Enter Age') 
-    DailyRate = st.text_input('Enter DailyRate')
-    HourlyRate = st.text_input('Enter HourlyRate')
-    DistanceFromHome = st.text_input('Enter Distance From Home')
-    EnvironmentSatisfaction = st.text_input('Enter Environment Satisfaction')
-    JobInvolvement = st.text_input('Enter Job Involvement')
-    JobLevel = st.text_input('Enter Job Level')
-    JobSatisfaction = st.text_input('Enter Job Satisfaction')
-    MonthlyIncome = st.text_input('Enter Monthly Income')
-    NumCompaniesWorked = st.text_input('Enter Number of Companies Worked')
-    PercentSalaryHike = st.text_input('Enter Percent Salary Hike')
-    RelationshipSatisfaction = st.text_input('Enter Relationship Satisfaction')
-    StockOptionLevel = st.text_input('Enter Stock Option Level')
-    TotalWorkingYears = st.text_input('Enter Total Working Years')
-    TrainingTimesLastYear = st.text_input('Enter Training Times LastYear')
-    WorkLifeBalance = st.text_input('Enter Worklife Balance')
-    YearsAtCompany = st.text_input('Enter YearsAt Company')
-    YearsSinceLastPromotion = st.text_input('Enter Years Since Last Promotion')
-    PerformanceRating = st.text_input('Enter Performance Rating ')
-    Education = st.text_input('Enter Education')
+def main():
+    col1,col2,col3 = st.columns(3)
+    with col1:
 
-    BusinessTravel= st.selectbox("Select type of business travel", ('Travel_Frequently','Travel_Rarely',"Non-Travel")) 
-    Department=st.selectbox("Select type of department", ('Sales', 'Support','Software','Research & Development','Human Resources','Hardware')) 
-    EducationField=st.selectbox("Select type of education field", ('Other','Marketing','Medical','Technical Degree','Human Resources')) 
-    Gender=st.selectbox("Select  Gender ", ('Male','Female'))
-    JobRole=st.selectbox("Select type of Jobrole ", ('Sales Executive', "Research Scientist", "Human Resources",
-                                              "Manager","Healthcare Representative","Research Director",'Laboratory Technician','Manufacturing Director','Developer'))
-    MaritalStatus=st.selectbox("Select MaritalStatus", ('Single', 'Married',"Divorce"))
-    OverTime=st.selectbox("Select OverTime", ('Yes','No'))
-   
+        age = st.text_input('Enter Age') 
+        DailyRate = st.text_input('Enter DailyRate')
+        HourlyRate = st.text_input('Enter HourlyRate')
+        DistanceFromHome = st.text_input('Enter Distance From Home')
+        EnvironmentSatisfaction = st.text_input('Enter Environment Satisfaction')
+        JobInvolvement = st.text_input('Enter Job Involvement')
+        JobLevel = st.text_input('Enter Job Level')
+        JobSatisfaction = st.text_input('Enter Job Satisfaction')
+        MonthlyIncome = st.text_input('Enter Monthly Income')
+    with col2:
+        NumCompaniesWorked = st.text_input('Enter Number of Companies Worked')
+        PercentSalaryHike = st.text_input('Enter Percent Salary Hike')
+        RelationshipSatisfaction = st.text_input('Enter Relationship Satisfaction')
+        StockOptionLevel = st.text_input('Enter Stock Option Level')
+        TotalWorkingYears = st.text_input('Enter Total Working Years')
+        TrainingTimesLastYear = st.text_input('Enter Training Times LastYear')
+        WorkLifeBalance = st.text_input('Enter Worklife Balance')
+        YearsAtCompany = st.text_input('Enter YearsAt Company')
+        YearsSinceLastPromotion = st.text_input('Enter Years Since Last Promotion')
+    with col3:
+        PerformanceRating = st.text_input('Enter Performance Rating ')
+        Education = st.text_input('Enter Education')
+        BusinessTravel= st.selectbox("Select type of business travel", ('Travel_Frequently','Travel_Rarely',"Non-Travel")) 
+        Department=st.selectbox("Select type of department", ('Sales', 'Support','Software','Research & Development','Human Resources','Hardware')) 
+        EducationField=st.selectbox("Select type of education field", ('Life Sciences','Other','Marketing','Medical','Technical Degree','Human Resources')) 
+        Gender=st.selectbox("Select  Gender ", ('Male','Female'))
+        JobRole=st.selectbox("Select type of Jobrole ", ('Sales Executive', "Research Scientist", "Human Resources", 
+                                                "Manager","Healthcare Representative","Sales Representative","Research Director",'Laboratory Technician','Manufacturing Director','Developer'))
+        MaritalStatus=st.selectbox("Select MaritalStatus", ('Single', 'Married',"Divorce"))
+        OverTime=st.selectbox("Select OverTime", ('Yes','No'))
+
     result = ""
-      
+
     if st.button("Predict"): 
         result = prediction(age, DailyRate, DistanceFromHome,Education,
        EnvironmentSatisfaction,HourlyRate,JobInvolvement, JobLevel,
@@ -286,5 +292,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
