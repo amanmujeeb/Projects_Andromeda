@@ -1,16 +1,22 @@
 import streamlit as st
 import pandas as pd
-
-
+import time
+import pickle
+from sklearn.preprocessing import StandardScaler
 from xgboost import XGBRegressor
 
+pickle_in = open('pipe.pkl', 'rb')
+classifier = pickle.load(pickle_in)
 st.title("Case Count Predictor")
-classifier = XGBRegressor()
-classifier.load_model('model.json')
+
+#classifier.load_model('model.json')
 
 @st.cache
 def prediction(Date, District, Day):
     occurred_on_date = pd.to_datetime(Date).toordinal()
+    #st.text(occurred_on_date)
+    #scaled = StandardScaler()
+    #occurred_on_date = scaled.transform(occurred_on_date)
     #  B2, C11, A1, E18, D4, B3, D14, A7,, E5, C6, E13, A15, External 
     if District == 'B2':
         D_B2 = 1
@@ -259,7 +265,7 @@ def prediction(Date, District, Day):
                                       day_7]])
      
     
-    return prediction 
+    return int(prediction), District
 def main():       
     Date = st.date_input("Enter Date")
     District = st.selectbox('Select District',
@@ -267,12 +273,17 @@ def main():
                              "E13", "A15", "External")) 
     Day = st.selectbox("Select Day of week", ('Monday', "Tuesday", "Wednesday", "Thursday",
                                               "Friday","Saturday","Sunday")) 
+    
     result = ""
       
     # when 'Predict' is clicked, make the prediction and store it 
     if st.button("Predict"): 
-        result = prediction(Date, District, Day) 
-        st.success('{}'.format(result))
+        result = prediction(Date, District, Day)[0]
+        with st.spinner('Calculating...'):
+            time.sleep(2)
+        with st.spinner('Predicting'):
+            time.sleep(3)   
+        st.success('Number of crimes in district {} is predicted to be {}'.format(District, result))
         
 if __name__ == "__main__":
     main()
