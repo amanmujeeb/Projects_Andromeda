@@ -6,7 +6,6 @@ Created on Sun Jun 25 12:12:41 2023
 @author: amanmujeeb
 """
 
-pip install streamlit langchain openai tiktoken
 import streamlit as st
 from langchain.llms import OpenAI
 from langchain.text_splitter import CharacterTextSplitter
