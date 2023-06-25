@@ -37,11 +37,14 @@ def generate_response(uploaded_file, openai_api_key, query_text):
         return qa.run(query_text)
 
 # Page title
-st.set_page_config(page_title='🦜🔗 Ask the Csv App')
-st.title('🦜🔗 Ask the Csv App')
+st.set_page_config(page_title='Ask the Csv App')
+st.title('Ask the Csv App')
 
 # File upload
 uploaded_file = st.file_uploader('Upload a Csv', type='csv')
+#logo
+logo = "andromeda.jpeg"  # Replace with the actual filename of your logo
+st.sidebar.image(logo, use_column_width=True)
 # Query text
 query_text = st.text_input('Enter your question:', placeholder = 'Please provide a short summary.', disabled=not uploaded_file)
 
