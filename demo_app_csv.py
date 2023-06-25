@@ -31,7 +31,7 @@ def generate_response(uploaded_file, openai_api_key, query_text):
         # Create QA chain
         #qa = RetrievalQA.from_chain_type(llm=OpenAI(openai_api_key=openai_api_key), chain_type='stuff', retriever=retriever)
         df = pd.read_csv(uploaded_file)
-        qa = create_pandas_dataframe_agent(OpenAI(openai_api_key=openai_api_key), 
+        qa = create_pandas_dataframe_agent(OpenAI(openai_api_key=openai_api_key,temperature=1.7), 
                                          df, 
                                          verbose=True)
         return qa.run(query_text)
