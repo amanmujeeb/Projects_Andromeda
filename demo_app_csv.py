@@ -58,15 +58,8 @@ with st.form('myform', clear_on_submit=True):
         with st.spinner('Calculating...'):
             response = generate_response(uploaded_file, openai_api_key, query_text)
             result.append(response)
-            # display message history
-
-            messages = st.session_state.get('messages', [])
-            for i, msg in enumerate(messages[1:]):
-                if i % 2 == 0:
-                    message(msg.content, is_user=True, key=str(i) + '_user')
-                else:
-                    message(msg.content, is_user=False, key=str(i) + '_ai')
-            #del openai_api_key
+            
+            del openai_api_key
 
 if len(result):
     st.info(response)
