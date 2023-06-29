@@ -50,6 +50,7 @@ query_text = st.text_input('Enter your question:', placeholder = 'Please provide
 
 # Form input and query
 result = []
+
 with st.form('myform', clear_on_submit=True):
     openai_api_key = st.text_input('OpenAI API Key', type='password', disabled=not (uploaded_file and query_text))
     submitted = st.form_submit_button('Submit', disabled=not(uploaded_file and query_text))
@@ -57,7 +58,15 @@ with st.form('myform', clear_on_submit=True):
         with st.spinner('Calculating...'):
             response = generate_response(uploaded_file, openai_api_key, query_text)
             result.append(response)
-            del openai_api_key
+            # display message history
+
+            messages = st.session_state.get('messages', [])
+            for i, msg in enumerate(messages[1:]):
+                if i % 2 == 0:
+                    message(msg.content, is_user=True, key=str(i) + '_user')
+                else:
+                    message(msg.content, is_user=False, key=str(i) + '_ai')
+            #del openai_api_key
 
 if len(result):
     st.info(response)
